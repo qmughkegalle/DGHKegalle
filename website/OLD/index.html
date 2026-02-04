@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DGH Kegalle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">DGH Kegalle</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#doctors">Doctors</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section id="home" class="hero">
+    <h1>Welcome to DGH Kegalle</h1>
+    <p class="lead">Trusted healthcare with compassion and excellence.</p>
+</section>
+
+<!-- Doctors Preview (100vh with stats + button) -->
+<section id="doctors" class="doctors-section">
+    <div class="container text-center">
+        <h2 class="section-title">Our Doctors</h2>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card doctor-card p-4 shadow animate__animated animate__fadeInUp">
+                    <h5>Dr. A. Perera</h5>
+                    <p>Cardiologist</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card doctor-card p-4 shadow animate__animated animate__fadeInUp animate__delay-1s">
+                    <h5>Dr. B. Silva</h5>
+                    <p>General Physician</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card doctor-card p-4 shadow animate__animated animate__fadeInUp animate__delay-2s">
+                    <h5>Dr. C. Fernando</h5>
+                    <p>Pediatrician</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-number" data-target="99">0</div>
+                <p>Expert Staff</p>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-number" data-target="37">0</div>
+                <p>Years of Service</p>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-number" data-target="18000">0</div>
+                <p>Satisfied Patients</p>
+            </div>
+        </div>
+
+        <!-- View More Button -->
+        <a href="doctors.html" class="btn btn-accent animate__animated animate__pulse animate__infinite">View More Doctors</a>
+    </div>
+</section>
+
+<section id="services" class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="section-title">Our Services</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card p-4 shadow animate__animated animate__fadeInUp">
+                    <h5>Emergency Care</h5>
+                    <p>24/7 emergency services with dedicated staff and facilities.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 shadow animate__animated animate__fadeInUp animate__delay-1s">
+                    <h5>Surgery</h5>
+                    <p>Modern operating theatres with experienced surgeons.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 shadow animate__animated animate__fadeInUp animate__delay-2s">
+                    <h5>Pediatrics</h5>
+                    <p>Comprehensive care for children and adolescents.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer/About -->
+<footer id="about" class="about-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5>Address</h5>
+                <p>District General Hospital Kegalle<br>Kegalle, Sri Lanka</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Contact</h5>
+                <p>Phone: +94 35 222 1234<br>Email: info@dghkegalle.lk</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Find Us</h5>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.567890!2d80.345!3d7.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1sDistrict%20General%20Hospital%20Kegalle!5e0!3m2!1sen!2slk!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <p>&copy; 2026 DGH Kegalle. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

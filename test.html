@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MM/DD/YYYY → DD/MM/YYYY</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 200px; margin-bottom: 10px; }
+        button { padding: 10px 20px; }
+        pre { background: #f4f4f4; padding: 10px; }
+    </style>
+</head>
+<body>
+<h2>Paste MM/DD/YYYY Dates</h2>
+<textarea id="inputDates" placeholder="Paste your column of dates here..."></textarea>
+<br>
+<button onclick="convertDates()">Convert</button>
+<h3>Output (DD/MM/YYYY)</h3>
+<pre id="outputDates"></pre>
+
+<script>
+    function convertDates() {
+        const input = document.getElementById("inputDates").value.trim();
+        const lines = input.split(/\r?\n/);
+        const fixed = lines.map(line => flipDate(line));
+        document.getElementById("outputDates").textContent = fixed.join("\n");
+    }
+
+    function flipDate(dateStr) {
+        if (!dateStr) return "";
+        const parts = dateStr.split(/[\/\-]/).map(p => p.trim());
+        if (parts.length !== 3) return dateStr; // not a valid date
+
+        let [mm, dd, yyyy] = parts;
+        return pad(dd) + "/" + pad(mm) + "/" + yyyy;
+    }
+
+    function pad(num) {
+        return num.length === 1 ? "0" + num : num;
+    }
+</script>
+</body>
+</html>
