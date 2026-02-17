@@ -10,15 +10,25 @@
 <body class="bg-dark text-light">
 
 <div class="container mt-5">
-  <h2 class="mb-4 text-center">Hospital Login</h2>
+  <h2 class="mb-4 text-center ">Hospital Login</h2>
 
-  <!-- Hospital Select -->
-  <div class="mb-3">
-    <label class="form-label">Select Hospital</label>
-    <select id="hospitalSelect" class="form-select"></select>
+  <!-- Floating Portrait Div (dark themed) -->
+  <div class="position-absolute top-50 start-50 translate-middle bg-dark shadow-lg rounded p-4 border border-secondary" style="width:300px;">
+
+    <!-- Hospital Select -->
+    <div class="mb-3">
+      <label class="form-label text-light">Select Hospital</label>
+      <select id="hospitalSelect" class="form-select bg-dark text-light border-secondary"></select>
+    </div>
+
+    <!-- Password Field -->
+    <div class="mb-3">
+      <label class="form-label text-light">Password</label>
+      <input type="password" id="hospitalPassword" class="form-control bg-dark text-light border-secondary" placeholder="Enter password">
+    </div>
+
+    <button id="loginBtn" class="btn btn-primary w-100">Login</button>
   </div>
-
-  <button id="loginBtn" class="btn btn-primary">Login</button>
 </div>
 
 <script type="module">
@@ -26,11 +36,16 @@
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const hospitalSelect = document.getElementById("hospitalSelect");
+  const hospitalPassword = document.getElementById("hospitalPassword");
   const loginBtn = document.getElementById("loginBtn");
 
   // Load hospitals from DB
   async function loadHospitals() {
-    const { data: hospitals } = await supabase.from("hospitals").select("*");
+    const { data: hospitals, error } = await supabase.from("hospitals").select("*");
+    if (error) {
+      console.error(error);
+      return;
+    }
     hospitalSelect.innerHTML = hospitals.map(h =>
             `<option value="${h.hospital_id}">${h.hospital_name}</option>`
     ).join("");
@@ -39,10 +54,23 @@
   // Login action
   loginBtn.addEventListener("click", async () => {
     const hospitalId = hospitalSelect.value;
-    const { data: hospital } = await supabase.from("hospitals")
+    const enteredPassword = hospitalPassword.value;
+
+    const { data: hospital, error } = await supabase.from("hospitals")
             .select("*")
             .eq("hospital_id", hospitalId)
             .single();
+
+    if (error || !hospital) {
+      alert("Hospital not found.");
+      return;
+    }
+
+    // Check password
+    if (hospital.password !== enteredPassword) {
+      alert("Invalid password. Please try again.");
+      return;
+    }
 
     // Save hospital info in localStorage
     localStorage.setItem("hospital", JSON.stringify({
@@ -58,4 +86,6 @@
 </script>
 
 </body>
+
+
 </html>
