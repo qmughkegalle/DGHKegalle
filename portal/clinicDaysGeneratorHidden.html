@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clinic Days Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 20px;
+    }
+    .day {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      min-height: 70px;
+    }
+    .weekday-header {
+      font-weight: bold;
+      text-align: center;
+      background: #f8f9fa;
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    .disabled-day {
+      background: #dc3545 !important;
+      color: #fff;
+    }
+  </style>
+</head>
+<body class="p-4">
+
+<h2>Clinic Days Generator</h2>
+
+<!-- Editable table of clinics -->
+<table class="table table-bordered" id="clinicsTable">
+  <thead>
+  <tr>
+    <th>Clinic Name</th>
+    <th>Days of Week (comma separated, e.g. Monday,Wednesday)</th>
+    <th>Capacity</th>
+    <th>Color</th>
+  </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<button id="generateBtn" class="btn btn-primary">Generate Calendar</button>
+
+<!-- Calendar display -->
+<div id="calendar" class="calendar"></div>
+
+<button id="uploadBtn" class="btn btn-success mt-3">Upload to Clinic Days Table</button>
+
+<script type="module">
+  import { SUPABASE_URL, SUPABASE_ANON_KEY } from './dbKey.js';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const clinicsTableBody = document.querySelector("#clinicsTable tbody");
+  const generateBtn = document.getElementById("generateBtn");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const calendarEl = document.getElementById("calendar");
+
+  let clinicsData = [];
+  let generatedDays = [];
+
+  // Very distinctive colors
+  const colorPalette = [
+    "#0000FF", // Blue
+    "#008000", // Green
+    "#FFA500", // Orange
+    "#800080", // Purple
+    "#00FFFF", // Cyan
+    "#FFC0CB", // Pink
+    "#A52A2A", // Brown
+    "#FFD700", // Gold
+    "#000000"  // Black
+  ];
+
+  // Assign colors without duplicates
+  function assignColors(clinics) {
+    const usedColors = new Set();
+    return clinics.map((c, index) => {
+      let color = colorPalette[index % colorPalette.length];
+      // Ensure no duplicates
+      while (usedColors.has(color)) {
+        color = colorPalette[(index + 1) % colorPalette.length];
+      }
+      usedColors.add(color);
+      return { ...c, color };
+    });
+  }
+
+
+  // Load clinics from DB
+  async function loadClinics() {
+    const { data: clinics } = await supabase.from("clinics").select("clinic_id, clinic_name");
+    clinicsData = assignColors(clinics.map(c => ({
+      clinic_id: c.clinic_id,
+      clinic_name: c.clinic_name,
+      days: "",
+      capacity: 0
+    })));
+
+    clinicsTableBody.innerHTML = clinicsData.map(c => `
+    <tr data-id="${c.clinic_id}">
+      <td>${c.clinic_name}</td>
+      <td><input type="text" class="form-control daysInput" value="${c.days}"></td>
+      <td><input type="number" class="form-control capacityInput" value="${c.capacity}"></td>
+      <td><input type="color" class="form-control colorInput" value="${c.color}"></td>
+    </tr>
+  `).join("");
+  }
+
+  // Use a map keyed by date+clinic_id
+  let generatedDaysMap = new Map();
+
+  function generateCalendar(startDate, endDate) {
+    calendarEl.innerHTML = "";
+
+    const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    weekdays.forEach(day => {
+      const header = document.createElement("div");
+      header.className = "weekday-header";
+      header.textContent = day;
+      calendarEl.appendChild(header);
+    });
+
+    const firstDay = new Date(startDate);
+    const offset = firstDay.getDay();
+    for (let i = 0; i < offset; i++) {
+      const emptyCell = document.createElement("div");
+      emptyCell.className = "day";
+      emptyCell.style.visibility = "hidden";
+      calendarEl.appendChild(emptyCell);
+    }
+
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const dayDiv = document.createElement("div");
+      dayDiv.className = "day";
+      dayDiv.dataset.date = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+
+      const dateLabel = document.createElement("div");
+      dateLabel.textContent =  d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+      dayDiv.appendChild(dateLabel);
+
+      const indicatorContainer = document.createElement("div");
+
+      clinicsData.forEach(clinic => {
+        const daysOfWeek = clinic.days.split(",").map(x => x.trim().toLowerCase());
+        const dayName = d.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+
+        if (daysOfWeek.includes(dayName)) {
+          const span = document.createElement("span");
+          span.textContent = "X";
+          span.style.background = clinic.color;
+          span.style.color = "#fff";
+          span.style.fontWeight = "bold";
+          span.style.padding = "2px 4px";
+          span.style.borderRadius = "3px";
+          span.style.margin = "2px";
+          span.title = clinic.clinic_name;
+
+          // attach clinic info
+          span.dataset.clinicId = clinic.clinic_id;
+          span.dataset.capacity = clinic.capacity;
+
+          // toggle per-clinic disable
+          span.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (span.style.outline && span.style.outline.includes("red")) {
+              span.style.outline = "none";
+            } else {
+              span.style.outline = "5px solid red";
+            }
+          });
+
+          indicatorContainer.appendChild(span);
+        }
+      });
+
+      dayDiv.appendChild(indicatorContainer);
+
+      // toggle whole-day disable
+      dayDiv.addEventListener("click", () => {
+        if (dayDiv.classList.contains("disabled-day")) {
+          dayDiv.classList.remove("disabled-day");
+        } else {
+          dayDiv.classList.add("disabled-day");
+        }
+      });
+
+      calendarEl.appendChild(dayDiv);
+    }
+  }
+
+
+
+
+
+
+  generateBtn.addEventListener("click", () => {
+    // Update clinicsData from table inputs
+    clinicsTableBody.querySelectorAll("tr").forEach(row => {
+      const id = row.dataset.id;
+      const clinic = clinicsData.find(c => c.clinic_id == id);
+      clinic.days = row.querySelector(".daysInput").value;
+      clinic.capacity = parseInt(row.querySelector(".capacityInput").value);
+      clinic.color = row.querySelector(".colorInput").value;
+    });
+
+    const today = new Date();
+    // Start today
+    const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    // End on the same day next month
+    const endDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+
+    generateCalendar(startDate, endDate);
+  });
+
+  uploadBtn.addEventListener("click", async () => {
+    const toUpload = [];
+
+    document.querySelectorAll("#calendar .day").forEach(dayDiv => {
+      if (dayDiv.style.visibility === "hidden") return;
+
+      const dateISO = dayDiv.dataset.date;
+      if (!dateISO) return;
+      // skip whole-day disabled
+      if (dayDiv.classList.contains("disabled-day")) return;
+      console.log("Processing day:", dayDiv.dataset.date, "classes:", dayDiv.className);
+
+      dayDiv.querySelectorAll("span").forEach(span => {
+        // skip disabled clinics
+
+        console.log("  Checking clinic span:", span.title, "outline:", span.style.outline);
+        if (span.style.outline && span.style.outline.includes("red")) return;
+
+        toUpload.push({
+          date: dateISO,
+          capacity: span.dataset.capacity,
+          status: "open",
+          clinic_id: span.dataset.clinicId
+        });
+      });
+    });
+
+    if (toUpload.length === 0) {
+      alert("No active clinic days to upload!");
+      return;
+    }
+
+    const { error } = await supabase.from("clinic_days").insert(toUpload);
+
+    if (error) {
+      alert("Error uploading: " + error.message);
+    } else {
+      alert("Clinic days uploaded successfully!");
+    }
+  });
+
+
+  loadClinics();
+</script>
+</body>
+</html>

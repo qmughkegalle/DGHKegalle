@@ -1,0 +1,94 @@
+/* Referral Portal Theme - matches public site colors and accents */
+
+/* General body */
+body {
+    background-color: #f8f9fa; /* same light background */
+    color: #212529;            /* dark text */
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Referral form container */
+.referral-box {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+/* Headings */
+h2, h3, h4 {
+    color: #0d6efd; /* same blue accent */
+    text-align: center;
+}
+
+/* Labels */
+.form-label {
+    color: #212529;
+}
+
+/* Inputs and selects */
+.form-control, .form-select {
+    background-color: #fff;
+    color: #212529;
+    border: 1px solid #ced4da;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 5px rgba(13,110,253,0.5);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Autocomplete suggestions */
+#clinicSuggestions {
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+#clinicSuggestions div {
+    padding: 8px;
+    cursor: pointer;
+    color: #212529;
+}
+#clinicSuggestions div:hover,
+#clinicSuggestions .active {
+    background: #0d6efd;
+    color: #fff;
+}
+
+/* Referral form spacing */
+.mb-3 {
+    margin-bottom: 1.2rem !important;
+}
+
+/* Submit button full width */
+#submitBtn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Table styling (for referral lists) */
+.table {
+    border: none;
+}
+.table th {
+    color: #0d6efd;
+}
+.table tr:hover {
+    background-color: #f1f3f5;
+}

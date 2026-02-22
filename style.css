@@ -1,86 +1,82 @@
-/* style.css - Global Dark Theme Overrides */
-
-/* Base body styling */
-body {
-    background-color: #121212; /* deep dark background */
-    color: #e0e0e0;           /* soft light text */
-    font-family: 'Segoe UI', Roboto, monospace;
+/* Hero scroll arrow */
+.hero-text{
+    animation: fadeInUp 3s ease-in-out;
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+.scroll-down {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.scroll-down .arrow {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-bottom: 3px solid #fff;
+    border-right: 3px solid #fff;
+    transform: rotate(45deg);
+    animation: bounce 1.5s infinite;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(45deg); }
+    50% { transform: translateY(10px) rotate(45deg); }
 }
 
-/* Headings */
-h1, h2, h3, h4, h5 {
-    color: #bb86fc; /* purple accent for headings */
-    font-weight: 600;
+/* Service card hover accent */
+.service-card:hover {
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    border: 2px solid #0d6efd;
+}
+/* Hero full screen height */
+.hero {
+    height: calc(100vh - 56px); /* subtract navbar height */
+    overflow: hidden;
+}
+.hero-image {
+    height: 100%;
+    object-fit: cover;
 }
 
-/* Buttons */
-.btn-primary {
-    background-color: #6200ea; /* deep purple */
-    border-color: #6200ea;
-}
-.btn-primary:hover {
-    background-color: #3700b3;
-    border-color: #3700b3;
+/* Mission & Vision side by side */
+.mission-vision .col-md-6 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 300px;
 }
 
-.btn-success {
-    background-color: #03dac6; /* teal accent */
-    border-color: #03dac6;
-    color: #000;
-}
-.btn-success:hover {
-    background-color: #018786;
-    border-color: #018786;
-    color: #fff;
-}
-
-.btn-warning {
-    background-color: #fbc02d; /* warm yellow */
-    border-color: #fbc02d;
-    color: #000;
-}
-.btn-warning:hover {
-    background-color: #f57f17;
-    border-color: #f57f17;
-    color: #fff;
+/* Service card images */
+.service-card img {
+    max-height: 100px;       /* keeps them from looking giant */
+    width: auto;             /* maintain aspect ratio */
+    margin: 0 auto;          /* center horizontally */
+    display: block;
+    object-fit: contain;     /* ensures the whole image fits */
+    padding:10px;
 }
 
-/* Form controls */
-.form-control, .form-select {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    border: 1px solid #333;
-}
-.form-control:focus, .form-select:focus {
-    border-color: #bb86fc;
-    box-shadow: 0 0 0 0.2rem rgba(187,134,252,0.25);
-}
 
-/* Cards */
+/* Gallery images */
+.card img {
+    object-fit: cover;
+    height: 250px;   /* uniform height */
+}
 .card {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
-    color: #e0e0e0;
+    border: none;
+    transition: transform 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.05);
 }
 
-/* Navbar */
-.navbar {
-    background-color: #202020 !important;
-}
-.navbar-brand, .nav-link {
-    color: #bb86fc !important;
-}
-.nav-link:hover {
-    color: #03dac6 !important;
-}
-
-/* Tables */
-.table {
-    color: #e0e0e0;
-}
-.table thead {
-    background-color: #333;
-}
-.table tbody tr:hover {
-    background-color: #2a2a2a;
-}

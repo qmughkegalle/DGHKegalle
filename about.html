@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* Timeline styling */
+        /* Timeline styling */
         .timeline {
             position: relative;
             margin: 2rem 0;
@@ -18,30 +19,24 @@
         .timeline::before {
             content: '';
             position: absolute;
-            left: 50%;
+            left: 0; /* ✅ line fixed to left side */
             top: 0;
             bottom: 0;
             width: 4px;
             background: #0d6efd;
-            transform: translateX(-50%);
         }
         .timeline-item {
             position: relative;
-            width: 50%;
+            margin-left: 40px; /* space from line */
             padding: 1rem 2rem;
             box-sizing: border-box;
-        }
-        .timeline-item.left {
-            left: 0;
-            text-align: right;
-        }
-        .timeline-item.right {
-            left: 50%;
+            text-align: left; /* all content aligned right of line */
         }
         .timeline-item::before {
             content: '';
             position: absolute;
             top: 1rem;
+            left: -12px; /* dot on the line */
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -49,18 +44,12 @@
             border: 3px solid #fff;
             z-index: 1;
         }
-        .timeline-item.left::before {
-            right: -10px;
-        }
-        .timeline-item.right::before {
-            left: -10px;
-        }
         .timeline-item img {
-            max-width: 50%;
+            max-width: 60%;
             border-radius: 6px;
             margin-top: 0.5rem;
-
         }
+
     </style>
 </head>
 <body>
@@ -69,13 +58,13 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html"> <img src="images/icon.png" alt="Hospital Logo" width="30" height="30" class="me-2"> DGH Kegalle </a>
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html"> <img src="assets/images/icon.png" alt="Hospital Logo" width="30" height="30" class="me-2"> DGH Kegalle </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="../login.html">Referral Portal</a></li>
+                <li class="nav-item"><a class="nav-link" href="portal/login.html">Referral Portal</a></li>
                 <li class="nav-item"><a class="nav-link" href="resources.html">Patient Resources</a></li>
                 <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
                 <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
@@ -89,7 +78,7 @@
     <div class="container">
         <h2 class="text-secondary mb-4">History</h2>
         <ul class="timeline">
-            <li class="timeline-item left">
+            <li class="timeline-item">
                 <h5>The First Beginning (1930)</h5>
                 <p>
                     The first hospital was established at the location where the Kegalle Court Complex now stands.
@@ -102,25 +91,25 @@
                 </p>
             </li>
 
-            <li class="timeline-item right">
+            <li class="timeline-item">
                 <h5>Visionary Foundation (1959)</h5>
                 <p>
                     Hon. Punchi Banda Gunathillake Kalugalla (1920–2007), lawyer and politician, was instrumental in the establishment
                     and growth of healthcare infrastructure in Kegalle. His vision and advocacy laid the foundation for the hospital’s modern identity.
                 </p>
                 <div class="d-flex flex-wrap gap-3">
-                    <img src="images/first-block.png" alt="Placing first block" style="max-width:48%;">
-                    <img src="images/founder.png" alt="Founder of the hospital" style="max-width:48%;">
+                    <img src="assets/images/first-block.png" alt="Placing first block" style="max-width:48%;">
+                    <img src="assets/images/founder.png" alt="Founder of the hospital" style="max-width:48%;">
                 </div>
             </li>
 
-            <li class="timeline-item left">
+            <li class="timeline-item">
                 <h5>Relocation and Formal Inauguration (1965)</h5>
                 <p>
                     On 19th March 1965, the District General Hospital Kegalle was officially inaugurated at its current premises.
                     This date marks the beginning of a new era for our hospital and is celebrated as our annual anniversary.
                 </p>
-                <img src="images/builder.png" alt="Who built the hospital" style="max-width:50%;">
+                <img src="assets/images/builder.png" alt="Who built the hospital" style="max-width:50%;">
             </li>
         </ul>
 
@@ -200,8 +189,12 @@
     </div>
 
     <div class="bg-dark text-white text-center py-2">
-        © 2026 District General Hospital Kegalle
+    © 2026 District General Hospital Kegalle
+    <div style="font-size: 12px; color: #ccc;">
+        System developed and donated by K.A.N.N. Sooriyabandara @ 2026
     </div>
+</div>
+
 </footer>
 
 <!-- Bootstrap JS -->
