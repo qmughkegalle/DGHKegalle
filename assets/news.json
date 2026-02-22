@@ -1,0 +1,17 @@
+[
+  {
+    "topic": "Free Health Camp",
+    "shortDesc": "Join us for a community health screening on Jan 20.",
+    "longDesc": "This camp will provide free checkups, consultations, and basic lab tests for the community."
+  },
+  {
+    "topic": "New MRI Machine",
+    "shortDesc": "State-of-the-art imaging now available at our Radiology Department.",
+    "longDesc": "The new MRI machine offers faster scans, clearer images, and improved patient comfort."
+  },
+  {
+    "topic": "Blood Donation Drive",
+    "shortDesc": "Support lives by donating blood this February.",
+    "longDesc": "The drive will be held at the main auditorium, with refreshments and certificates for donors."
+  }
+]
